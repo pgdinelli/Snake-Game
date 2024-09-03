@@ -25,18 +25,33 @@ public class GamePanel extends JPanel implements ActionListener {
     Random random;
 
     public GamePanel(){
-        this.add(new GamePanel());
+        random = new Random();
+        setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        setBackground(Color.BLACK);
+        setFocusable(true);
+        addKeyListener(new MyKeyAdapter());
+        startGame();
     }
 
     public void startGame(){
-
+        createFood();
+        running = true;
+        timer = new Timer(DELAY,this);
+        timer.start();
     }
 
     public void paintComponent(Graphics g){
-
+        super.paintComponent(g);
+        draw(g);
     }
 
     public void draw(Graphics g){
+        for(int i=0; i < SCREEN_HEIGHT/UNIT_SIZE;i++){
+            g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, SCREEN_HEIGHT);
+        }
+    }
+
+    public void createFood(){
 
     }
 
