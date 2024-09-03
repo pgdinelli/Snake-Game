@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class GameFrame extends JFrame {
     public GameFrame(){
@@ -6,7 +7,7 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         pack();
-        setSize(800, 600);
+        setSize(600, 600);
         setResizable(false);
         setLocationRelativeTo(null);
         GamePanel panel = new GamePanel();

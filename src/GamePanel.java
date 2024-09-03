@@ -48,15 +48,46 @@ public class GamePanel extends JPanel implements ActionListener {
     public void draw(Graphics g){
         for(int i=0; i < SCREEN_HEIGHT/UNIT_SIZE;i++){
             g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, SCREEN_HEIGHT);
+            g.drawLine(0, i * UNIT_SIZE, SCREEN_WIDTH, i * UNIT_SIZE);
+        }
+        g.setColor(Color.RED);
+        g.fillOval(foodCoordX, foodCoordY, UNIT_SIZE, UNIT_SIZE);
+
+        for (int i=0; i < bodyParts; i++){
+            if(i == 0){
+                g.setColor(Color.GREEN);
+                g.fillRect(playerCoordX[i], playerCoordY[i], UNIT_SIZE, UNIT_SIZE);
+            } else {
+                g.setColor(Color.BLUE);
+                g.fillRect(playerCoordX[i], playerCoordY[i], UNIT_SIZE, UNIT_SIZE);
+            }
         }
     }
 
     public void createFood(){
-
+        foodCoordX = random.nextInt( ( int )( SCREEN_WIDTH / UNIT_SIZE )) * UNIT_SIZE;
+        foodCoordY = random.nextInt( ( int )( SCREEN_HEIGHT / UNIT_SIZE )) * UNIT_SIZE;
     }
 
     public void move(){
-
+        for(int i = bodyParts; i > 0; i--){
+            playerCoordX[i] = playerCoordX[i-1];
+            playerCoordY[i] = playerCoordY[i-1];
+        }
+        switch (direction){
+            case 'U':
+                playerCoordY[0] = playerCoordY[0] - UNIT_SIZE;
+                break;
+            case 'D':
+                playerCoordY[0] = playerCoordY[0] + UNIT_SIZE;
+                break;
+            case 'L':
+                playerCoordX[0] = playerCoordX[0] - UNIT_SIZE;
+                break;
+            case 'R':
+                playerCoordX[0] = playerCoordX[0] + UNIT_SIZE;
+                break;
+        }
     }
 
     public void checkFood(){
