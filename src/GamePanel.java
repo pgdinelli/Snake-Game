@@ -46,13 +46,15 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void draw(Graphics g){
-        for(int i=0; i < SCREEN_HEIGHT/UNIT_SIZE;i++){
+        //draws food
+        for(int i=0; i < SCREEN_HEIGHT/UNIT_SIZE; i++){
             g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, SCREEN_HEIGHT);
             g.drawLine(0, i * UNIT_SIZE, SCREEN_WIDTH, i * UNIT_SIZE);
         }
         g.setColor(Color.RED);
         g.fillOval(foodCoordX, foodCoordY, UNIT_SIZE, UNIT_SIZE);
 
+        //draws snake
         for (int i=0; i < bodyParts; i++){
             if(i == 0){
                 g.setColor(Color.GREEN);
@@ -70,24 +72,25 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void move(){
-        for(int i = bodyParts; i > 0; i--){
-            playerCoordX[i] = playerCoordX[i-1];
-            playerCoordY[i] = playerCoordY[i-1];
+
+        for(int i = bodyParts; i > 0; i--) {
+            playerCoordX[i] = playerCoordX[i - 1];
+            playerCoordY[i] = playerCoordY[i - 1];
         }
-        switch (direction){
-            case 'U':
-                playerCoordY[0] = playerCoordY[0] - UNIT_SIZE;
-                break;
-            case 'D':
-                playerCoordY[0] = playerCoordY[0] + UNIT_SIZE;
-                break;
-            case 'L':
-                playerCoordX[0] = playerCoordX[0] - UNIT_SIZE;
-                break;
-            case 'R':
-                playerCoordX[0] = playerCoordX[0] + UNIT_SIZE;
-                break;
-        }
+            switch (direction) {
+                case 'U':
+                    playerCoordY[0] = playerCoordY[0] - UNIT_SIZE;
+                    break;
+                case 'D':
+                    playerCoordY[0] = playerCoordY[0] + UNIT_SIZE;
+                    break;
+                case 'L':
+                    playerCoordX[0] = playerCoordX[0] - UNIT_SIZE;
+                    break;
+                case 'R':
+                    playerCoordX[0] = playerCoordX[0] + UNIT_SIZE;
+                    break;
+            }
     }
 
     public void checkFood(){
@@ -95,7 +98,40 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void checkCollisions(){
+        /* There's a bug in the following code below which makes the snake not move at al
 
+        //checks if head collides with body
+        for(int i=bodyParts; i>0; i--){
+            if (playerCoordX[0] == playerCoordX[i] && playerCoordY[0] == playerCoordY[i]){
+                running = false;
+            }
+        }
+
+        //checks if head touches left border of the screen
+        if(playerCoordX[0] < 0){
+            running = false;
+        }
+
+        //checks if head touches right border of the screen
+        if(playerCoordX[0] < SCREEN_WIDTH - UNIT_SIZE){
+            running = false;
+        }
+
+        //checks if head touches top border of screen
+        if(playerCoordY[0] < 0){
+            running = false;
+        }
+
+        //checks if head touches bottom border of screen
+        if(playerCoordY[0] > SCREEN_HEIGHT - UNIT_SIZE){
+            running = false;
+        }
+
+        if(!running){
+            timer.stop();
+        }*/
+
+        //TODO: fix the bug which makes the snake not move at all
     }
 
     public void gameOver(Graphics g){
@@ -104,7 +140,12 @@ public class GamePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if(running){
+            move();
+            checkFood();
+            checkCollisions();
+        }
+        repaint();
     }
 
     public class MyKeyAdapter extends KeyAdapter{
